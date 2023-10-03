@@ -44,7 +44,7 @@ export const lambdaHandler = async (event, context) => {
                 ContentType: 'image/png'
                 })
                 .promise()
-
+                    //
         // console.log('S3 image URL:', s3result.Location) 
         // await page.screenshot({
         //     path: "first.png",
