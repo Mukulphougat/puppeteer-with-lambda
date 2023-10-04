@@ -17,8 +17,8 @@ export const lambdaHandler = async (event, context) => {
     let browser=null;
     try {
         const s3 = new AWS.S3({
-            accessKeyId: "AKIA2FJ6CWHQOBB4F6GZ",
-            secretAccessKey: "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",
+            accessKeyId: "",
+            secretAccessKey: "",
         });
         const bucket_name="mydata-for-me"
         const body=JSON.parse(event.body);
@@ -31,7 +31,7 @@ export const lambdaHandler = async (event, context) => {
         });
         const page = await browser.newPage();
         await page.setViewport({ width: 1280, height: 720 });
-        await page.goto(body.url, { waitUntil: 'networkidle0' });
+        await page.goto(body.url);
         const title=await page.title();
         const buffer=await page.screenshot({
             fullPage: true 
