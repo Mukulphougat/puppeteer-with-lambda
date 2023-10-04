@@ -4,7 +4,7 @@ version = 0.1
 
 [default]
 [default.global.parameters]
-stack_name = "puppeteer-lambda"
+stack_name = "pupp-lambda-basics"
 
 [default.build.parameters]
 cached = true
@@ -17,9 +17,10 @@ lint = true
 capabilities = "CAPABILITY_IAM"
 confirm_changeset = true
 resolve_s3 = true
-s3_prefix = "puppeteer-lambda"
+s3_prefix = "puppeter-with-lambda"
 region = "eu-north-1"
 image_repositories = []
+stack_name = "puppeter-with-lambda"
 
 [default.package.parameters]
 resolve_s3 = true

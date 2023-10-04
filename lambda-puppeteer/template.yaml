@@ -9,27 +9,31 @@ Description: >
 Globals:
   Function:
     Timeout: 15
-    MemorySize: 8000
-
+    MemorySize: 3008
 Resources:
-  # S3WritePolicy:
-  #   Type: AWS::IAM::ManagedPolicy
-  #   Properties:
-  #     PolicyDocument:
-  #       Version: '2012-10-17'
-  #       Statement:
-  #         - Effect: Allow
-  #           Action:
-  #             - s3:PutObject
-  #           Resource: arn:aws:s3:::mydata-for-me/*
+  S3WritePolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action:
+              - s3:PutObject
+            Resource: arn:aws:s3:::mydata-for-me/*
   HelloWorldFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      MemorySize: 4096
+      MemorySize: 3008
       CodeUri: hello-world/
       Handler: app.lambdaHandler
       Runtime: nodejs18.x
       Policies:
+        - Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Action: "apigateway:POST"
+              Resource: "arn:aws:apigateway:eu-north-1::/restapis/*"
         - S3WritePolicy: 
             BucketName: mydata-for-me
       Architectures:

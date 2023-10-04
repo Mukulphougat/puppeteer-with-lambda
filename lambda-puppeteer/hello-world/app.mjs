@@ -17,8 +17,8 @@ export const lambdaHandler = async (event, context) => {
     let browser=null;
     try {
         const s3 = new AWS.S3({
-            accessKeyId: "",
-            secretAccessKey: "",
+            accessKeyId: process.env.ACCESS_KEY,
+            secretAccessKey: process.env.SECRET_KEY,
         });
         const bucket_name="mydata-for-me"
         const body=JSON.parse(event.body);
@@ -41,7 +41,8 @@ export const lambdaHandler = async (event, context) => {
                 Bucket: bucket_name,
                 Key: `${Date.now()}.png`,
                 Body: buffer,
-                ContentType: 'image/png'
+                ContentType: 'image/png',
+                ACL: "public-read"
                 })
                 .promise()
                     //
