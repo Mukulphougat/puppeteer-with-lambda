@@ -34,34 +34,32 @@ export const lambdaHandler = async (event, context) => {
             ignoreHTTPSErrors: true
         });
         const page = await browser.newPage();
-            await page.setViewport({ width: 1280, height: 720 });
-            await page.goto(String(event.url));
-            const title=await page.title();
-            const buffer=await page.screenshot({
-                fullPage: true 
-            })
-            const bucket_name="mydata-for-me"
-            
-            const s3result = await s3
-                .upload({
-                    Bucket: bucket_name,
-                    Key: `${title}.png`,
-                    Body: buffer,
-                    ContentType: 'image/png',
-                    ACL: "public-read"
-                    })
-                    .promise()
+        await page.setViewport({ width: 1280, height: 720 });
+        await page.goto(String(event.url));
+        const title=await page.title();
+        const buffer=await page.screenshot({
+            fullPage: true 
+        })
+        const bucket_name="mydata-for-me"        
+        const s3result=await s3.upload(
+            {
+                Bucket: bucket_name,
+                Key: `${title}.png`,
+                Body: buffer,
+                ContentType: 'image/png',
+                ACL: "public-read"
+            }
+        ).promise()
+                
+        browser.close();
         return {
             'statusCode': 200,
             'body': {
                 Title: title,
-                S3Result: s3result.Location 
+                S3Result: s3result.Location
             }
         }
     } catch (err) {
-        if (browser !== null) {
-            await browser.close();
-        }
         return {
             statusCode: 500,
             body: JSON.stringify({ 
